@@ -45,14 +45,6 @@ SELECT log_mode FROM v$database;
 ```
 ### 2. Run the Snowflake Setup Script, as sysdba user via ssh (connected in step 1).
 
-```bash
-# SSH to your EC2 instance
-ssh -i <your-key.pem> ec2-user@<InstancePublicIp>
-
-# Connect to Oracle database as SYSTEM
-docker exec -it sharvan-kumar-afe-oracle-free sqlplus system/<password>@localhost:1521/FREEPDB1
-```
-
 ```sql
 -- Run the complete setup script
 @/path/to/snowflake_oracle_setup.sql
