@@ -49,21 +49,28 @@ CREATE USER c##xstreamadmin IDENTIFIED BY "XStreamAdmin123!"
 -- =============================================
 -- 4. Grant XStream Administrator Privileges
 -- =============================================
+-- Grant basic system privileges
+GRANT CREATE SESSION, SET CONTAINER, EXECUTE ANY PROCEDURE, LOGMINING TO c##xstreamadmin CONTAINER=ALL;
 
--- Grant necessary system privileges for Oracle Database 23c
-GRANT CREATE SESSION, SET CONTAINER, EXECUTE ANY PROCEDURE, LOGMINING, XSTREAM_CAPTURE
-  TO c##xstreamadmin CONTAINER=ALL;
+-- Grant XSTREAM_CAPTURE role (THIS WORKS!)
+GRANT XSTREAM_CAPTURE TO c##xstreamadmin CONTAINER=ALL;
 
--- Grant XStream administration privileges using DBMS_XSTREAM_AUTH
+-- Grant additional privileges
+GRANT SELECT ANY TABLE TO c##xstreamadmin CONTAINER=ALL;
+GRANT FLASHBACK ANY TABLE TO c##xstreamadmin CONTAINER=ALL;
+GRANT SELECT ANY TRANSACTION TO c##xstreamadmin CONTAINER=ALL;
+
+-- Try to grant XSTREAM_ADMIN role (may or may not work)
 BEGIN
-  DBMS_XSTREAM_AUTH.GRANT_ADMIN_PRIVILEGE(
-    grantee                 => 'c##xstreamadmin',
-    privilege_type          => 'CAPTURE',
-    grant_select_privileges => TRUE,
-    container               => 'ALL');
+    EXECUTE IMMEDIATE 'GRANT XSTREAM_ADMIN TO c##xstreamadmin CONTAINER=ALL';
+    DBMS_OUTPUT.PUT_LINE('XSTREAM_ADMIN role granted successfully');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('XSTREAM_ADMIN role not available: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Continuing with XSTREAM_CAPTURE role only');
 END;
 /
-
+   
 -- =============================================
 -- 5. Configure XStream Server Connect User
 -- =============================================
