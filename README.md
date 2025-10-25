@@ -57,7 +57,7 @@ SELECT log_mode FROM v$database;
 ```sql
 -- Check XStream outbound server
 SELECT server_name, status, connect_user, capture_user 
-FROM dba_xstream_outbound_servers;
+FROM dba_xstream_outbound;
 
 -- Check XStream capture process
 SELECT capture_name, status, queue_name, source_database
@@ -68,9 +68,11 @@ SELECT supplemental_log_data_min, supplemental_log_data_pk, supplemental_log_dat
 FROM v$database;
 
 -- Check user accounts
-SELECT username, account_status, created 
-FROM dba_users 
-WHERE username IN ('XSTRMADMIN', 'XSTRMUSER', 'SNOWFLAKE_CONNECTOR');
+SELECT username, account_status, created, default_tablespace
+FROM cdb_users 
+WHERE username IN ('C##XSTREAMADMIN','C##CONNECTUSER')
+ORDER BY username;
+
 ```
 
 ## What the Script Creates
