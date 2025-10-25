@@ -21,7 +21,29 @@ The `snowflake_oracle_setup.sql` script configures Oracle database with:
 
 ## Step-by-Step Setup
 
-### 1. Connect to Oracle Database as SYSTEM
+### 1. Connect to Oracle Database as Sysdba and Enable ArchiveMode.
+
+```bash
+# SSH to your EC2 instance
+ssh -i <your-key.pem> ec2-user@<InstancePublicIp>
+
+# docker bash
+docker exec -it sharvan-kumar-afe-oracle-free bash
+
+# Connect to Oracle database as Sysdba
+sqlplus -L / as sysdba
+
+```sql
+-- Check if database is in ARCHIVELOG mode
+SELECT log_mode FROM v$database;
+-- If not in ARCHIVELOG mode, enable it (requires database restart)
+-- SHUTDOWN IMMEDIATE;
+-- STARTUP MOUNT;
+-- ALTER DATABASE ARCHIVELOG;
+-- ALTER DATABASE OPEN;
+```
+
+### 2. Run the Snowflake Setup Script, as System user via ssh or SQL developer.
 
 ```bash
 # SSH to your EC2 instance
@@ -31,21 +53,6 @@ ssh -i <your-key.pem> ec2-user@<InstancePublicIp>
 docker exec -it sharvan-kumar-afe-oracle-free sqlplus system/<password>@localhost:1521/FREEPDB1
 ```
 
-### 2. Verify Database Mode
-
-```sql
--- Check if database is in ARCHIVELOG mode
-SELECT log_mode FROM v$database;
-
--- If not in ARCHIVELOG mode, enable it (requires database restart)
--- SHUTDOWN IMMEDIATE;
--- STARTUP MOUNT;
--- ALTER DATABASE ARCHIVELOG;
--- ALTER DATABASE OPEN;
-```
-
-### 3. Run the Snowflake Setup Script
-
 ```sql
 -- Run the complete setup script
 @/path/to/snowflake_oracle_setup.sql
@@ -53,7 +60,7 @@ SELECT log_mode FROM v$database;
 -- Or copy and paste the script content directly
 ```
 
-### 4. Verify Configuration
+### 3. Verify Configuration
 
 ```sql
 -- Check XStream outbound server
