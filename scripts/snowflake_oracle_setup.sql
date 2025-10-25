@@ -145,16 +145,34 @@ END;
 
 -- Check XStream outbound server status
 SELECT server_name, status, connect_user, capture_user 
-FROM dba_xstream_outbound_servers;
+FROM dba_xstream_outbound;
 
 -- Check if supplemental logging is enabled
 SELECT supplemental_log_data_min, supplemental_log_data_pk, supplemental_log_data_all
 FROM v$database;
 
--- Check user accounts
-SELECT username, account_status, created 
-FROM dba_users 
-WHERE username IN ('c##xstreamadmin', 'c##connectuser');
+/* 
+For XStream:
+-- supplemental_log_data_all = YES - Captures all column changes
+-- supplemental_log_data_min = IMPLICIT - Ensures minimal logging is active
+-- supplemental_log_data_pk = NO - Not needed when ALL is enabled
+For Snowflake OpenFlow:
+-- Complete change capture - All column modifications are tracked
+-- Real-time replication - Changes are immediately available
+-- Data consistency - Full column data for accurate replication
+*/ 
+
+-- Check user accounts exists in all containers
+
+SELECT con_id, username, account_status
+FROM   cdb_users
+WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER')
+ORDER  BY con_id;
+
+-- Quotas present?
+SELECT con_id, username, tablespace_name, max_bytes
+FROM   cdb_ts_quotas
+WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER');
 
 -- =============================================
 -- 10. Final Verification and Summary
@@ -167,13 +185,13 @@ SELECT name, value FROM v$parameter WHERE name = 'enable_goldengate_replication'
 SELECT log_mode FROM v$database;
 
 -- Check XStream outbound server configuration
-SELECT server_name, status, connect_user, capture_user, created
-FROM dba_xstream_outbound_servers;
+SELECT server_name, status, connect_user, capture_user
+FROM dba_xstream_outbound;
 
 -- Check user accounts and status
-SELECT username, account_status, created, default_tablespace
-FROM dba_users 
-WHERE username IN ('c##xstreamadmin', 'c##connectuser')
+SELECT con_id, username, account_status
+FROM   cdb_users
+WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER')
 ORDER BY username;
 
 -- =============================================
