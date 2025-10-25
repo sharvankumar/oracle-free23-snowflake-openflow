@@ -194,6 +194,16 @@ FROM   cdb_users
 WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER')
 ORDER BY username;
 
+-- Check  the capture name and messages
+SELECT CAPTURE_NAME,
+       STATE,
+       TOTAL_MESSAGES_CAPTURED,
+       TOTAL_MESSAGES_ENQUEUED 
+  FROM V$XSTREAM_CAPTURE;
+
+-- Check  all stream rules.
+select * from ALL_XSTREAM_RULES;
+
 -- =============================================
 -- Script completed successfully
 -- =============================================
