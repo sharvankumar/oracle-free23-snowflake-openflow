@@ -29,6 +29,7 @@ ssh -i <your-key.pem> ec2-user@<InstancePublicIp>
 
 # docker bash
 docker exec -it sharvan-kumar-afe-oracle-free bash
+```
 
 # Connect to Oracle database as Sysdba
 sqlplus -L / as sysdba
