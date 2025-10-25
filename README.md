@@ -111,9 +111,8 @@ WHERE username IN ('XSTRMADMIN', 'XSTRMUSER', 'SNOWFLAKE_CONNECTOR');
 ### Check XStream Status:
 ```sql
 -- Check outbound server status
-SELECT server_name, status, connect_user, capture_user, 
-       created, last_enqueue_time, last_dequeue_time
-FROM dba_xstream_outbound_servers;
+SELECT server_name, status, connect_user, capture_user
+FROM dba_xstream_outbound;
 
 -- Check GoldenGate replication setting
 SELECT name, value FROM v$parameter WHERE name = 'enable_goldengate_replication';
@@ -124,19 +123,13 @@ FROM v$database;
 
 -- Check user accounts
 SELECT username, account_status, created, default_tablespace
-FROM dba_users 
-WHERE username IN ('c##xstreamadmin', 'c##connectuser')
+FROM cdb_users 
+WHERE username IN ('C##XSTREAMADMIN','C##CONNECTUSER')
 ORDER BY username;
 ```
 
 ### Check Logs:
 ```sql
--- Check XStream logs
-SELECT * FROM dba_xstream_log;
-
--- Check capture errors
-SELECT * FROM dba_capture_errors;
-
 -- Check queue statistics
 SELECT * FROM dba_queue_tables;
 ```
