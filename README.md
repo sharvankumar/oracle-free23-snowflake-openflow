@@ -21,7 +21,7 @@ The `snowflake_oracle_setup.sql` script configures Oracle database with:
 
 ## Step-by-Step Setup
 
-### 1. Connect to Oracle Database as Sysdba and Enable ArchiveMode.
+### 1. Connect to Oracle Database as SYSDBA and Enable ArchiveMode.
 
 ```bash
 # SSH to your EC2 instance
