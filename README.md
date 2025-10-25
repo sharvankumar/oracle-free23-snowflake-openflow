@@ -29,11 +29,8 @@ ssh -i <your-key.pem> ec2-user@<InstancePublicIp>
 
 # docker bash
 docker exec -it sharvan-kumar-afe-oracle-free bash
-```
-
-# Connect to Oracle database as Sysdba
 sqlplus -L / as sysdba
-
+```
 ```sql
 -- Check if database is in ARCHIVELOG mode
 SELECT log_mode FROM v$database;
