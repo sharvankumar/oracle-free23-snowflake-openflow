@@ -39,6 +39,9 @@ SELECT log_mode FROM v$database;
 -- STARTUP MOUNT;
 -- ALTER DATABASE ARCHIVELOG;
 -- ALTER DATABASE OPEN;
+-- run now to check the log_mode.
+SELECT log_mode FROM v$database;
+
 ```
 
 ### 2. Run the Snowflake Setup Script, as System user via ssh or SQL developer.
