@@ -83,6 +83,8 @@ CREATE USER c##connectuser IDENTIFIED BY "ConnectUser123!"
 GRANT CREATE SESSION, SELECT_CATALOG_ROLE TO c##connectuser CONTAINER=ALL;
 GRANT SELECT ANY TABLE TO c##connectuser CONTAINER=ALL;
 GRANT LOCK ANY TABLE TO c##connectuser CONTAINER=ALL;
+GRANT SELECT ANY DICTIONARY TO c##connectuser CONTAINER=ALL;
+
 
 -- =============================================
 -- 6. Create XStream Outbound Server
@@ -166,13 +168,13 @@ For Snowflake OpenFlow:
 
 SELECT con_id, username, account_status
 FROM   cdb_users
-WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER')
+WHERE  username IN ('C##XSTREAMADMIN','C##CONNECTUSER')
 ORDER  BY con_id;
 
 -- Quotas present?
 SELECT con_id, username, tablespace_name, max_bytes
 FROM   cdb_ts_quotas
-WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER');
+WHERE  username IN ('C##XSTREAMADMIN','C##CONNECTUSER')
 
 -- =============================================
 -- 10. Final Verification and Summary
@@ -191,7 +193,7 @@ FROM dba_xstream_outbound;
 -- Check user accounts and status
 SELECT con_id, username, account_status
 FROM   cdb_users
-WHERE  username IN ('C##XSTRMCAPTURE','C##CONNECTUSER')
+WHERE   username IN ('C##XSTREAMADMIN','C##CONNECTUSER')
 ORDER BY username;
 
 -- Check  the capture name and messages
