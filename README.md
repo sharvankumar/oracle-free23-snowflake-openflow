@@ -254,6 +254,7 @@ DROP USER SNOWFLAKE_CONNECTOR CASCADE;
 ## Support and Documentation
 
 ### Snowflake Documentation:
+- [Oracle Setup Task](https://docs.snowflake.com/LIMITEDACCESS/openflow/connectors/oracle/setup-tasks)
 - [Snowflake OpenFlow Connectors](https://docs.snowflake.com/LIMITEDACCESS/openflow/connectors/)
 - [Oracle Connector Setup](https://docs.snowflake.com/LIMITEDACCESS/openflow/connectors/oracle/setup-connector)
 
