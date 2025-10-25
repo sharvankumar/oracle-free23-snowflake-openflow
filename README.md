@@ -43,7 +43,7 @@ SELECT log_mode FROM v$database;
 SELECT log_mode FROM v$database;
 
 ```
-### 2. Run the Snowflake Setup Script, as sysdba user via ssh (connected in step 1).
+### 2. Run the Snowflake Setup Script, as SYSDBA user via ssh (connected in step 1).
 
 ```sql
 -- Run the complete setup script
